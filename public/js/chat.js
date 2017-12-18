@@ -64,7 +64,7 @@ socket.on('disconnect', function (){
 jQuery('#message-form').on('submit', function(e){
     e.preventDefault();
 
-    socket.emit('createMsg',{from:'User', text:jQuery('[name=message]').val()}, function(){
+    socket.emit('createMsg',{text:jQuery('[name=message]').val()}, function(){
         jQuery('[name=message]').text(' ');
     });
 });

@@ -1,5 +1,5 @@
 var socket = io();
-
+console.log(socket);
 function scrollToButtom (){
     var messages = jQuery('#messages');
     var newMessage = messages.children('li:last-child');
@@ -22,13 +22,16 @@ socket.on('connect',function (){
         if(err){
         alert(err);
         window.location.href= '/';
-        
         }else{
 
         }
     })
-    // socket.emit('createMsg',{"to":"vp","text":"how u doing?"});
 });
+
+socket.on('openPrivateChat', function(data){
+    console.log('chat.js',data);
+})
+
 
 socket.on('updateUsersList', function(users){
     // console.log(users);
@@ -38,7 +41,16 @@ socket.on('updateUsersList', function(users){
         ol.append(jQuery('<li></li>').text(user));
     })
     jQuery('#users').html(ol);
-})
+});
+
+// socket.on('updateRoomsList', function(rooms){
+//     var ol = jQuery('<ol></ol>');
+
+//     rooms.forEach((room)=>{
+//         ol.append(jQuery('<li></li>').text(room));
+//     })
+//     jQuery('#rooms').html(ol);
+// });
 
 socket.on('newMsg',function (msg){
     console.log('New msg arrived',msg);
@@ -53,7 +65,7 @@ socket.on('newMsg',function (msg){
     // li.text(`${msg.from} ${formattedTime}:${msg.text}`);
     jQuery('#messages').append(html);
     scrollToButtom();
-},function(ack){
+    },function(ack){
     console.log('got it',ack);
 });
 
@@ -105,4 +117,4 @@ socket.on('newLocationMessage', function (message) {
     // li.append(a);
     jQuery('#messages').append(html);
     scrollToButtom();
-  });
+});

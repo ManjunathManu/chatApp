@@ -21,8 +21,6 @@ describe('User class and methods',()=>{
             }];
     });
    
-
-   
     it('should add a new user',()=>{
         var users= new User();
         var user = {id:'123', name:'manju', room:'techjini'};
@@ -40,12 +38,27 @@ describe('User class and methods',()=>{
         var user = users.removeUser(2);
         chai.expect(user.id).to.equal(2);
         chai.expect(users.users.length).to.equal(2);
-    })
+    });
 
-    it('return all the users',()=>{
-        var names=users.getAllUsers('nodejs');
-        var names2 = users.getAllUsers('PHP');
+    it('return all the users in the room',()=>{
+        var names=users.getAllUsersInRoom('nodejs');
+        var names2 = users.getAllUsersInRoom('PHP');
         chai.expect(names).to.eql(['manu','manjunath']);
         chai.expect(names2).to.eql(['manju']);
+    });
+
+    it('return all the rooms',()=>{
+       let rooms = users.getAllRooms();
+        chai.expect(rooms).to.eql(['nodejs','PHP']);
+    });
+
+    it('return all users', ()=>{
+        let allUsers = users.getAllUsers();
+        chai.expect(allUsers).to.eql(['manu', 'manju', 'manjunath']);
     })
+
+    it('return user id', ()=>{
+        let userId = users.getUserId('manju');
+        chai.expect(userId).to.eql(2)
+        })
 })

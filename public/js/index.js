@@ -23,6 +23,7 @@ $(document).ready(function(){
      event.preventDefault();
      console.log(this.innerText);
      jQuery('[name=room]').val(this.innerText);
+    //  $("#user2").attr("name","user2");
      roomChat = false;
      $("#chat_login").submit();
  })

@@ -35,13 +35,13 @@ io.on('connection', (socket)=>{
     socket.on('privateChat',(params, callback)=>{
         console.log('privateChat')
         // console.log(socket.id);
-        privateUsers.addUser(socket.id, params.name);
         if(params.room){
+            privateUsers.addUser(socket.id, params.name, params.room);
             let user2 = users.getUserId(params.room);
             io.to(user2).emit('privateChatInvitation',generatePrivateInvitation(params.name, params.room));
         
         }else{
-            privateUsers.addUser(socket.id,params.name)
+            privateUsers.addUser(socket.id,params.name,params.user2);
         }
         // console.log('user2', user2);
         socket.emit('newMsg',generateMessage('Admin', 'Welcome to chat app'));
@@ -50,22 +50,32 @@ io.on('connection', (socket)=>{
 
     socket.on('createPrivateMsg',(msg, callback)=>{
         let user = privateUsers.getUser(socket.id);
-        console.log(msg.to)
-        let user2 = privateUsers.getUserId(msg.to);
-        console.log(user2)
-        io.to(user2).emit('newMsg', generateMessage(user.name, msg.text));
-        socket.emit('newMsg', generateMessage(user.name, msg.text));
+        console.log(user.name, msg.to)
+        try{
+            let user2 = privateUsers.getUserPrivateId(user.name, msg.to);
+            console.log(user2)
+            io.to(user2).emit('newMsg', generateMessage(user.name, msg.text));
+            socket.emit('newMsg', generateMessage(user.name, msg.text));
+        }catch(err){
+            socket.emit('newMsg',generateMessage('Admin', 'Your invitation has not been accepted'));
+        }
+        
     });
 
     socket.on('createPrivateLocationMsg',(coords, to)=>{
         let user = privateUsers.getUser(socket.id);
         console.log(to.to);
-        let user2 = privateUsers.getUserId(to.to)    
-        console.log(user2)    
-        if(user && user2){
-            io.to(user2).emit('newLocationMessage', generateLocationMessage(user.name, coords.latitude, coords.longitude));            
-            socket.emit('newLocationMessage', generateLocationMessage(user.name, coords.latitude, coords.longitude));
+        try{
+            let user2 = privateUsers.getUserPrivateId(user.name, to.to);
+            console.log(user2)    
+            if(user && user2){
+                io.to(user2).emit('newLocationMessage', generateLocationMessage(user.name, coords.latitude, coords.longitude));            
+                socket.emit('newLocationMessage', generateLocationMessage(user.name, coords.latitude, coords.longitude));
+            }
+        }catch(err){
+            socket.emit('newMsg',generateMessage('Admin', 'Your invitation has not been accepted'));
         }
+       
     });
 
     socket.on('createMsg', (msg, callback)=>{

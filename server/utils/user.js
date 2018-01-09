@@ -15,8 +15,8 @@ class User{
         return this.users.filter((user)=>user.name === name)[0].id;
     }
     
-    getUserPrivateId(name){
-        return this.users.filter((user)=>user.name === name)[0].privateId;
+    getUserPrivateId(from, to){
+        return this.users.filter((user)=>user.name === to && user.room === from)[0].id;
     }
     removeUser(id){
         var user = this.getUser(id);

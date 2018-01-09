@@ -22,7 +22,7 @@ socket.on('connect',function (){
     console.log('socketId',socket.id);
     var params = jQuery.deparam(window.location.search);
     from = params.name;
-    if(params.room){
+    if(params.room ){
         to = params.room;
     }else{
         to = params.user2;

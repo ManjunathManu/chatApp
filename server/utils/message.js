@@ -1,5 +1,10 @@
 const moment = require('moment');
-
+let env = process.env.NODE_ENV || "development";
+if(env === 'development'){
+    url = 'http://localhost:3000/'
+}else{
+    url = 'https://rocky-mountain-95524.herokuapp.com/'
+}
 var generateMessage = (from, text)=>{
 return {
     from,
@@ -19,7 +24,7 @@ var generateLocationMessage = (from, lat, lng)=>{
 let generatePrivateInvitation = (from,to)=>{
     return {
         from,
-        url: `http://localhost:3000/privateChat.html?name=${to}&user2=${from}`,
+        url: `${url}privateChat.html?name=${to}&user2=${from}`,
         createdAt:moment().valueOf()
     }
 }

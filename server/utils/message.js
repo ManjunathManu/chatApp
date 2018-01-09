@@ -16,4 +16,11 @@ var generateLocationMessage = (from, lat, lng)=>{
     }
 }
 
-module.exports = {generateMessage,generateLocationMessage};
+let generatePrivateInvitation = (from,to)=>{
+    return {
+        from,
+        url: `http://localhost:3000/privateChat.html?name=${to}&user2=${from}`,
+        createdAt:moment().valueOf()
+    }
+}
+module.exports = {generateMessage,generateLocationMessage,generatePrivateInvitation};

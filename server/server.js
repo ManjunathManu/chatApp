@@ -3,7 +3,7 @@ const http = require('http')
 const socketIO = require('socket.io')
 const path = require('path');
 const publicPath = path.join(__dirname,'./../public');
-const {generateMessage, generateLocationMessage} = require('./utils/message.js');
+const {generateMessage, generateLocationMessage,generatePrivateInvitation} = require('./utils/message.js');
 const {isRealString} = require('./utils/validate');
 const {User} = require('./utils/user');
 
@@ -12,6 +12,7 @@ var app = express();
 var server = http.createServer(app);
 var io = socketIO(server);
 var users = new User();
+let privateUsers = new User();
 
 io.on('connection', (socket)=>{
     console.log('New user connected');
@@ -22,7 +23,7 @@ io.on('connection', (socket)=>{
         
         socket.join(params.room);        
         users.removeUser(socket.id);
-        users.addUser(socket.id,socket.id + params.name, params.name, params.room);
+        users.addUser(socket.id, params.name, params.room);
          
         io.to(params.room).emit('updateUsersList',users.getAllUsersInRoom(params.room));
         socket.emit('newMsg',generateMessage('Admin', 'Welcome to chat app'));
@@ -31,14 +32,41 @@ io.on('connection', (socket)=>{
         
     });
 
-    // socket.on('privateChat',(params, callback)=>{
-    //     // console.log(msg);
-    //     let privateSocketId1 = users.getUserPrivateId(params.name);
-    //     let privateSocketId2 = users.getUserPrivateId(params.room);
-    //     console.log(privateSocketId1)
-    //     socket.to(privateSocketId1).emit('newMsg', {"text":"hi "});
-    //     // socket.emit('openPrivateChat',{privateSocketId1, privateSocketId2});
-    // });
+    socket.on('privateChat',(params, callback)=>{
+        console.log('privateChat')
+        // console.log(socket.id);
+        privateUsers.addUser(socket.id, params.name);
+        if(params.room){
+            let user2 = users.getUserId(params.room);
+            io.to(user2).emit('privateChatInvitation',generatePrivateInvitation(params.name, params.room));
+        
+        }else{
+            privateUsers.addUser(socket.id,params.name)
+        }
+        // console.log('user2', user2);
+        socket.emit('newMsg',generateMessage('Admin', 'Welcome to chat app'));
+        callback();
+    });
+
+    socket.on('createPrivateMsg',(msg, callback)=>{
+        let user = privateUsers.getUser(socket.id);
+        console.log(msg.to)
+        let user2 = privateUsers.getUserId(msg.to);
+        console.log(user2)
+        io.to(user2).emit('newMsg', generateMessage(user.name, msg.text));
+        socket.emit('newMsg', generateMessage(user.name, msg.text));
+    });
+
+    socket.on('createPrivateLocationMsg',(coords, to)=>{
+        let user = privateUsers.getUser(socket.id);
+        console.log(to.to);
+        let user2 = privateUsers.getUserId(to.to)    
+        console.log(user2)    
+        if(user && user2){
+            io.to(user2).emit('newLocationMessage', generateLocationMessage(user.name, coords.latitude, coords.longitude));            
+            socket.emit('newLocationMessage', generateLocationMessage(user.name, coords.latitude, coords.longitude));
+        }
+    });
 
     socket.on('createMsg', (msg, callback)=>{
             //console.log('New Msg:',msg)
@@ -48,14 +76,14 @@ io.on('connection', (socket)=>{
             }
             callback('This is sent by server');
     });
-    
+
     socket.on('createLocationMsg', (coords) => {
         var user = users.getUser(socket.id);
         if(user){
         io.to(user.room).emit('newLocationMessage', generateLocationMessage(user.name, coords.latitude, coords.longitude));
         
         }
-      });
+    });
 
     socket.on('disconnect',()=>{
         var user = users.removeUser(socket.id);

@@ -1,19 +1,30 @@
 let socket = io();
 $(document).ready(function(){
+ let roomChat = true;
 
- $("#rooms").on('click', 'li', function(){
+ $("#rooms").on('click', 'li', function(event){
+     event.preventDefault();
      console.log(this.innerText);
      jQuery('[name=room]').val(this.innerText);
+    //  $('#chat-login').submit();
+    roomChat = true;
      $('#joinBtn').click();
  });
+
+ $('#chat_login').submit(function(){
+     if(roomChat){
+        $('#chat_login').attr('action','/../chat.html');
+     }else{
+        $('#chat_login').attr('action','/../privateChat.html');
+    }
+ })
 
  $('#users').on('click', 'li', function(event){
      event.preventDefault();
      console.log(this.innerText);
-    //  $('#privateChatBtn').click({"to":this.innerText, "from":$('#user1').val()},()=>{});
-    //  socket.emit('privateChat',{"to":this.innerText, "from":$('#user1').val()}, () =>{});
-    let receiver = jQuery('[name=room]').val(this.innerText);
-    socket.emit('privateChat',receiver,()=>{})
+     jQuery('[name=room]').val(this.innerText);
+     roomChat = false;
+     $("#chat_login").submit();
  })
 });
 
@@ -31,7 +42,6 @@ socket.on('connect',function (){
 });
 
 socket.on('updateUsersList', function(users){
-    // console.log(users);
     var ol = jQuery('<ol class="list-group" id="users"></ol>');
 
     users.forEach((user)=>{

@@ -2,8 +2,8 @@ class User{
     constructor (){
         this.users=[];
     }
-    addUser(id,privateId, name, room){
-        var user = {id,privateId, name, room};
+    addUser(id, name, room){
+        var user = {id, name, room};
         this.users.push(user);
         return user;
     }
@@ -14,6 +14,7 @@ class User{
     getUserId(name){
         return this.users.filter((user)=>user.name === name)[0].id;
     }
+    
     getUserPrivateId(name){
         return this.users.filter((user)=>user.name === name)[0].privateId;
     }

@@ -23,7 +23,8 @@ $(document).ready(function(){
      event.preventDefault();
      console.log(this.innerText);
      jQuery('[name=room]').val(this.innerText);
-    //  $("#user2").attr("name","user2");
+     $("#user1").attr("name","from");
+     $("#user2").attr("name","to");
      roomChat = false;
      $("#chat_login").submit();
  })

@@ -21,12 +21,9 @@ socket.on('connect',function (){
     console.log('connected to server');
     console.log('socketId',socket.id);
     var params = jQuery.deparam(window.location.search);
-    from = params.name;
-    if(params.room ){
-        to = params.room;
-    }else{
-        to = params.user2;
-    }
+    from = params.from;
+    to = params.to;
+
     socket.emit('privateChat',params, function(err){
         if(err){
         alert(err);
@@ -60,7 +57,7 @@ jQuery('#message-form').on('submit', function(e){
     e.preventDefault();
 
     socket.emit('createPrivateMsg',{text:jQuery('[name=message]').val(), to}, function(){
-        jQuery('[name=message]').text(' ');
+        jQuery('[name=message]').val('')
     });
 });
 

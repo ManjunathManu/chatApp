@@ -24,7 +24,7 @@ var generateLocationMessage = (from, lat, lng)=>{
 let generatePrivateInvitation = (from,to)=>{
     return {
         from,
-        url: `${url}privateChat.html?name=${to}&user2=${from}`,
+        url: `${url}privateChat.html?from=${to}&to=${from}`,
         createdAt:moment().valueOf()
     }
 }

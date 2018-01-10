@@ -2,9 +2,10 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+    /*font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;*/
     font-weight: 300;
     font-size: .95rem;
+    font-family: 'Open Sans', sans-serif;
   }
   
   ul, li {
@@ -14,7 +15,7 @@
   h3 {
     font-weight: 600;
     text-align: center;
-    font-size: 1.5rem;
+    font-size: 18px;
   }
   
   button {
@@ -49,7 +50,7 @@
     background: -webkit-linear-gradient(125deg, rgba(39,107,130,1) 0%, rgba(49,84,129,1) 100%); /* safari5.1+,chrome10+ */
     background: -o-linear-gradient(125deg, rgba(39,107,130,1) 0%, rgba(49,84,129,1) 100%); /* opera 11.10+ */
     background: -ms-linear-gradient(125deg, rgba(39,107,130,1) 0%, rgba(49,84,129,1) 100%); /* ie10+ */
-    background: linear-gradient(325deg, rgba(39,107,130,1) 0%, rgba(49,84,129,1) 100%); /* w3c */
+    background: linear-gradient(325deg, rgb(207, 237, 247) 0%, rgb(87, 49, 129) 100%); /* w3c */
   }
   
   .centered-form__form {
@@ -96,7 +97,7 @@
     background: -webkit-linear-gradient(125deg, rgba(39,107,130,1) 0%, rgba(49,84,129,1) 100%); /* safari5.1+,chrome10+ */
     background: -o-linear-gradient(125deg, rgba(39,107,130,1) 0%, rgba(49,84,129,1) 100%); /* opera 11.10+ */
     background: -ms-linear-gradient(125deg, rgba(39,107,130,1) 0%, rgba(49,84,129,1) 100%); /* ie10+ */
-    background: linear-gradient(325deg, rgba(39,107,130,1) 0%, rgba(49,84,129,1) 100%); /* w3c */
+    background: linear-gradient(325deg, rgb(207, 237, 247) 0%, rgb(87, 49, 129) 100%); /* w3c */
   }
   
   .chat__sidebar h3 {

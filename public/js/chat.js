@@ -42,7 +42,6 @@ socket.on('privateChatInvitation', function(message){
 
 
 socket.on('updateUsersList', function(users){
-    // console.log(users);
     var ol = jQuery('<ol></ol>');
 
     users.forEach((user)=>{
@@ -60,8 +59,6 @@ socket.on('newMsg',function (msg){
         text : msg.text,
         createdAt : formattedTime
     })
-    // var li = jQuery('<li></li>');
-    // li.text(`${msg.from} ${formattedTime}:${msg.text}`);
     jQuery('#messages').append(html);
     scrollToButtom();
     },function(ack){
@@ -76,7 +73,7 @@ jQuery('#message-form').on('submit', function(e){
     e.preventDefault();
 
     socket.emit('createMsg',{text:jQuery('[name=message]').val()}, function(){
-        jQuery('[name=message]').text(' ');
+        jQuery('[name=message]').val('');
     });
 });
 
@@ -117,3 +114,7 @@ socket.on('newLocationMessage', function (message) {
     jQuery('#messages').append(html);
     scrollToButtom();
 });
+
+jQuery("#leaveRoom").click(function(e){
+    window.location.href = "/"
+})

@@ -198,4 +198,14 @@
       margin-right: 0px;
     }
   }
-  
+  .float-right {
+    float: right;
+  }
+
+  /* #messageItem{
+    float: right;
+    border: 2px solid #ddd;
+    border-radius: 20%;
+    background-color: #c3e2f1;
+  }
+   */

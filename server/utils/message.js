@@ -1,7 +1,7 @@
 const moment = require('moment');
 let env = process.env.NODE_ENV || "development";
 if(env === 'development'){
-    url = 'http://localhost:3000/'
+    url = 'http://54.152.72.80:3000/'
 }else{
     url = 'https://rocky-mountain-95524.herokuapp.com/'
 }

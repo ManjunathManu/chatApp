@@ -69,7 +69,7 @@ io.on('connection', (socket)=>{
             callback();
         }catch(err){
             socket.emit('newMsg',generateMessage('Admin', 'Your invitation has not been accepted'));
-            callback()
+            callback();
         }
         
     });
